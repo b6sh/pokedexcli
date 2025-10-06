@@ -1,11 +1,10 @@
 package main
 
 import (
-	"math/rand"
 	"errors"
 	"fmt"
+	"math/rand"
 	"os"
-
 )
 
 func commandExit(cfg *config, args []string) error {
@@ -38,7 +37,7 @@ func commandMapf(cfg *config, args []string) error {
 	return nil
 }
 
-func commandMapb(cfg *config, args []string) error {	
+func commandMapb(cfg *config, args []string) error {
 	if cfg.prevURL == nil {
 		return errors.New("you're on the first page")
 	}
@@ -79,7 +78,7 @@ func commandCatch(cfg *config, args []string) error {
 	if len(args) == 1 {
 		return errors.New("please choose a Pokemon to catch 'catch <Pokemon Name>'")
 	}
-	
+
 	fmt.Println("Throwing a Pokeball at " + args[1] + "...")
 
 	resp, err := cfg.apiClient.Catch(args[1])
@@ -95,7 +94,6 @@ func commandCatch(cfg *config, args []string) error {
 	} else {
 		fmt.Println(args[1] + " was caught!")
 	}
-
 
 	cfg.deck[args[1]] = resp
 	return nil
@@ -113,6 +111,15 @@ func commandInspect(cfg *config, args []string) error {
 
 	fmt.Println("Name: " + pokemon.Name)
 	fmt.Printf("Power Level: %v\n", pokemon.BaseExperience)
+
+	return nil
+}
+
+func commandDeck(cfg *config, args []string) error {
+	fmt.Println("Your Pokedex:")
+	for key := range cfg.deck {
+		fmt.Println(" - " + key)
+	}
 
 	return nil
 }
